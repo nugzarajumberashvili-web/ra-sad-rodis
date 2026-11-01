@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ka" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>რა? სად? როდის? | ინტელექტ-კლუბი</title>
+    <meta name="description" content="რა? სად? როდის? — ინტელექტუალური კლუბი და AI მოაზროვნეთა გუნდი: კაპიტანი, მათემატიკა, გეოგრაფია, ბიოლოგია, ისტორია და სპორტი.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Ambient Floating Aurora Glow Orbs -->
+    <div class="ambient-aurora">
+        <div class="aurora-orb orb-cyan"></div>
+        <div class="aurora-orb orb-violet"></div>
+        <div class="aurora-orb orb-gold"></div>
+        <div class="aurora-orb orb-emerald"></div>
+    </div>
+
+    <!-- Background Interactive Particle Canvas -->
+    <canvas id="neuralCanvas"></canvas>
+
+    <!-- Celebration Confetti Canvas for Quiz Success -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="app-layout">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav" id="topNav">
+            <div class="nav-brand">
+                <div class="brand-crest holographic-shimmer" title="ბროლის ბუ">
+                    <span class="crest-icon">🦉</span>
+                    <span class="pulse-ring"></span>
+                    <span class="pulse-ring-outer"></span>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-top-row">
+                        <h1 class="brand-game-title">რა? სად? როდის?</h1>
+                        <div class="live-eq" id="navLiveEq" title="Live Neural Activity">
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                        </div>
+                    </div>
+                    <span class="brand-subtitle" id="brandSubtitle">ინტელექტ-კლუბი | INTELLECT CLUB</span>
+                </div>
+            </div>
+
+            <!-- Central Mode Navigation Tabs -->
+            <nav class="nav-tabs" id="navTabs" aria-label="Main Navigation">
+                <button class="nav-tab-btn active animated-tab" id="tabBtnChat" data-tab="chat">
+                    <span class="tab-icon">💬</span>
+                    <span class="tab-label" data-i18n="tab_chat">მოაზროვნეები</span>
+                </button>
+                <button class="nav-tab-btn animated-tab" id="tabBtnSyndicate" data-tab="syndicate">
+                    <span class="tab-icon">⏱️</span>
+                    <span class="tab-label" data-i18n="tab_syndicate">1 წუთი ფიქრისთვის</span>
+                    <span class="badge-mini glow-pulse">გუნდი</span>
+                </button>
+                <button class="nav-tab-btn animated-tab" id="tabBtnQuiz" data-tab="quiz">
+                    <span class="tab-icon">🦉</span>
+                    <span class="tab-label" data-i18n="tab_quiz">ბროლის ბუ</span>
+                    <span class="badge-mini xp">ქვიზი</span>
+                </button>
+                <button class="nav-tab-btn animated-tab" id="tabBtnDossier" data-tab="dossier">
+                    <span class="tab-icon">👥</span>
+                    <span class="tab-label" data-i18n="tab_dossier">გუნდის შემადგენლობა</span>
+                </button>
+            </nav>
+
+            <!-- Utility Controls -->
+            <div class="nav-actions">
+                <div class="status-indicator" title="Club Tables Active">
+                    <span class="status-dot"></span>
+                    <span class="status-text" data-i18n="status_online">თამაში აქტიურია</span>
+                </div>
+                <button class="icon-btn hover-lift" id="audioToggleBtn" title="ხმის ჩართვა/გამორთვა" aria-label="Toggle Sound">
+                    <span id="audioIcon">🔊</span>
+                </button>
+                <button class="lang-switch-btn hover-lift" id="langSwitchBtn" title="Switch Language">
+                    <span class="lang-code" id="langCode">GE</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-content" id="mainContent">
+
+            <!-- TAB 1: DIRECT AGENT CHAT -->
+            <section class="tab-view active" id="viewChat">
+                <div class="chat-container glass-panel-glow">
+                    <!-- Agent Selection Cards Row (7 chips) -->
+                    <div class="agent-selector-bar seven-chips" id="agentSelectorBar">
+                        <!-- Auto Router Option -->
+                        <div class="agent-card-chip active tilt-card" data-agent-id="auto" id="chipAuto">
+                            <div class="chip-avatar auto-glow float-anim">🤖</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_auto_name">ჭკვიანი შერჩევა</span>
+                                <span class="chip-role" data-i18n="agent_auto_desc">თემის მიხედვით</span>
+                            </div>
+                        </div>
+
+                        <!-- Leader / Captain -->
+                        <div class="agent-card-chip tilt-card" data-agent-id="leader" id="chipLeader">
+                            <div class="chip-avatar leader-glow float-anim">🦉</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_leader_name">ალექსი (კაპიტანი)</span>
+                                <span class="chip-role" data-i18n="agent_leader_role">სტრატეგი & სინთეზი</span>
+                            </div>
+                        </div>
+
+                        <!-- Mathematics -->
+                        <div class="agent-card-chip tilt-card" data-agent-id="math" id="chipMath">
+                            <div class="chip-avatar math-glow float-anim">📐</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_math_name">თეა (მათემატიკა)</span>
+                                <span class="chip-role" data-i18n="agent_math_role">ლოგიკა & რიცხვები</span>
+                            </div>
+                        </div>
+
+                        <!-- Geography (NEW!) -->
+                        <div class="agent-card-chip tilt-card" data-agent-id="geography" id="chipGeography">
+                            <div class="chip-avatar geo-glow float-anim">🌍</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_geo_name">სანდრო (გეოგრაფია)</span>
+                                <span class="chip-role" data-i18n="agent_geo_role">რუკა & ქვეყნები</span>
+                            </div>
+                        </div>
+
+                        <!-- Biology -->
+                        <div class="agent-card-chip tilt-card" data-agent-id="biology" id="chipBiology">
+                            <div class="chip-avatar bio-glow float-anim">🧬</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_bio_name">ლუკა (ბიოლოგია)</span>
+                                <span class="chip-role" data-i18n="agent_bio_role">ფლორა & ფაუნა</span>
+                            </div>
+                        </div>
+
+                        <!-- History -->
+                        <div class="agent-card-chip tilt-card" data-agent-id="history" id="chipHistory">
+                            <div class="chip-avatar hist-glow float-anim">🏛️</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_hist_name">ნინო (ისტორია)</span>
+                                <span class="chip-role" data-i18n="agent_hist_role">ეპოქები & ფაქტები</span>
+                            </div>
+                        </div>
+
+                        <!-- Sport (NEW!) -->
+                        <div class="agent-card-chip tilt-card" data-agent-id="sport" id="chipSport">
+                            <div class="chip-avatar sport-glow float-anim">⚽</div>
+                            <div class="chip-details">
+                                <span class="chip-name" data-i18n="agent_sport_name">დავითი (სპორტი)</span>
+                                <span class="chip-role" data-i18n="agent_sport_role">ოლიმპიადა & რეკორდები</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Agent Banner / Info bar -->
+                    <div class="active-agent-banner" id="activeAgentBanner">
+                        <div class="agent-meta-left">
+                            <div class="active-avatar holographic-pulse" id="activeAvatar">🤖</div>
+                            <div class="active-info">
+                                <div class="active-name-row">
+                                    <h2 class="active-name" id="activeName">ჭკვიანი შერჩევა (Auto-Select)</h2>
+                                    <span class="active-badge shimmer-badge" id="activeBadge">რა? სად? როდის?</span>
+                                    <div class="voice-wave hidden" id="agentVoiceWave">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                </div>
+                                <p class="active-desc" id="activeDesc">სისტემა ავტომატურად გააანალიზებს თქვენს კითხვას და გადასცემს შესაბამის მოაზროვნეს.</p>
+                            </div>
+                        </div>
+                        <div class="agent-meta-right">
+                            <button class="btn-ghost-sm hover-lift" id="btnResetChat" title="ჩატის გასუფთავება">
+                                <span class="rotate-icon">🔄</span>
+                                <span data-i18n="btn_clear_history">ისტორიის გასუფთავება</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Feed -->
+                    <div class="chat-messages-viewport" id="chatViewport">
+                        <div class="chat-messages-list" id="chatList">
+                            <!-- Welcome greeting card -->
+                            <div class="system-welcome-card animated-fade-in" id="welcomeCard">
+                                <div class="welcome-header">
+                                    <div class="welcome-badge">🦉 რა? სად? როდის? — ინტელექტ-კლუბი</div>
+                                    <h3>მოგესალმებათ მოაზროვნეთა გუნდი!</h3>
+                                    <p>კაპიტანი ალექსი და ჩვენი 5 სპეციალიზებული ექსპერტი მზად არიან ნებისმიერ ინტელექტუალურ გამოწვევასა და შეკითხვაზე საპასუხოდ.</p>
+                                </div>
+                                <div class="quick-prompts-container">
+                                    <span class="quick-title" data-i18n="sample_prompts_title">სცადეთ ერთ-ერთი შეკითხვა:</span>
+                                    <div class="quick-pills-row" id="quickPillsRow">
+                                        <!-- Dynamically loaded pills -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input Area -->
+                    <div class="chat-input-bar">
+                        <form class="input-form" id="chatForm">
+                            <div class="input-glow-wrapper border-beam">
+                                <textarea 
+                                    id="chatInput" 
+                                    class="chat-textarea" 
+                                    placeholder="დასვით შეკითხვა მოაზროვნეებთან (გეოგრაფია, სპორტი, ისტორია, ბიოლოგია, მათემატიკა)..." 
+                                    rows="1"
+                                    maxlength="2000"
+                                    required
+                                ></textarea>
+                                <button type="submit" class="send-btn ripple-btn" id="sendBtn" title="გაგზავნა">
+                                    <span class="send-text" data-i18n="btn_send">გაგზავნა</span>
+                                    <span class="send-icon rocket-anim">🦉</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: ROUNDTABLE: 1 წუთი ფიქრისთვის -->
+            <section class="tab-view" id="viewSyndicate">
+                <div class="syndicate-container">
+                    <div class="syndicate-hero-card glass-panel-glow tilt-card">
+                        <div class="syndicate-hero-text">
+                            <span class="eyebrow-tag shimmer-tag">⏱️ 1 წუთი ფიქრისთვის | ROUNDTABLE BRAINSTORM</span>
+                            <h2 data-i18n="syndicate_title">გუნდური განხილვის მაგიდა</h2>
+                            <p data-i18n="syndicate_desc">
+                                დასვით ინტელექტუალური შეკითხვა. გუნდის კაპიტანი გამოაცხადებს 1 წუთს ფიქრისთვის — 5-ვე ექსპერტი (მათემატიკა, გეოგრაფია, ბიოლოგია, ისტორია, სპორტი) წამოაყენებს თავის ვერსიას, დასასრულს კი კაპიტანი ჩამოაყალიბებს გუნდის ოფიციალურ პასუხს!
+                            </p>
+                        </div>
+                        <div class="syndicate-presets">
+                            <span class="preset-label" data-i18n="syndicate_presets">რეკომენდებული ინტელექტუალური შეკითხვები:</span>
+                            <div class="preset-buttons">
+                                <button class="preset-btn hover-lift" data-topic="რომელი გეოგრაფიული და ბიოლოგიური ფაქტორები განსაზღვრავდა ოლიმპიური თამაშების ჩატარებას ძველ საბერძნეთში?">
+                                    🏛️ ძველი ოლიმპიადა: სპორტი + ისტორია + გეოგრაფია
+                                </button>
+                                <button class="preset-btn hover-lift" data-topic="რატომ არის სარგასოს ზღვა ერთადერთი ზღვა სანაპირო ხმელეთის გარეშე და რა ბიოლოგიური ფენომენია იქ?">
+                                    🌍 სარგასოს ზღვა: გეოგრაფია + ბიოლოგია + ოკეანოლოგია
+                                </button>
+                                <button class="preset-btn hover-lift" data-topic="როგორ გამოიყენებოდა მათემატიკური და გეომეტრიული გამოთვლები ძველი სამყაროს რუკების შედგენისას?">
+                                    🧭 კარტოგრაფია: მათემატიკა + გეოგრაფია + ისტორია
+                                </button>
+                                <button class="preset-btn hover-lift" data-topic="როგორ მოიგო დინამო თბილისმა 1981 წლის ევროპის თასი და რა ისტორიული მნიშვნელობა ჰქონდა ამას?">
+                                    ⚽ 1981 წლის 13 მაისი: დინამო თბილისი და ქართული სპორტი
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Syndicate Input Form -->
+                    <div class="syndicate-input-box glass-panel-glow">
+                        <form id="syndicateForm" class="syndicate-form">
+                            <textarea 
+                                id="syndicateInput" 
+                                class="syndicate-textarea" 
+                                placeholder="ჩაწერეთ შეკითხვა 1 წუთიანი გუნდური განხილვისთვის..." 
+                                rows="2" 
+                                required
+                            ></textarea>
+                            <button type="submit" class="syndicate-submit-btn ripple-btn" id="syndicateSubmitBtn">
+                                <span class="sparkle-icon">⏱️</span>
+                                <span data-i18n="btn_start_syndicate">1 წუთის დაწყება</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Live Discussion Stream -->
+                    <div class="syndicate-stream" id="syndicateStream">
+                        <div class="empty-syndicate-state glass-panel-glow" id="syndicateEmptyState">
+                            <div class="empty-hex pulse-glow-hex">🦉</div>
+                            <h3 data-i18n="syndicate_empty_title">მზადება 1 წუთიანი განხილვისთვის</h3>
+                            <p data-i18n="syndicate_empty_desc">შეიყვანეთ შეკითხვა და იხილეთ, როგორ განიხილავენ კაპიტანი, თეა, სანდრო, ლუკა, ნინო და დავითი ვერსიებს რეალურ დროში.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: QUIZ ARENA: ბროლის ბუ -->
+            <section class="tab-view" id="viewQuiz">
+                <div class="quiz-container">
+                    <!-- Quiz Score Header -->
+                    <div class="quiz-header-card glass-panel-glow">
+                        <div class="quiz-stats-group">
+                            <div class="stat-pill score tilt-card">
+                                <span class="stat-icon bounce-subtle">🦉</span>
+                                <div class="stat-detail">
+                                    <span class="stat-label" data-i18n="quiz_score">ქულა</span>
+                                    <span class="stat-val animated-num" id="quizScoreVal">0</span>
+                                </div>
+                            </div>
+                            <div class="stat-pill streak tilt-card">
+                                <span class="stat-icon flame-flicker">🔥</span>
+                                <div class="stat-detail">
+                                    <span class="stat-label" data-i18n="quiz_streak">სერია</span>
+                                    <span class="stat-val animated-num" id="quizStreakVal">0</span>
+                                </div>
+                            </div>
+                            <div class="stat-pill xp tilt-card">
+                                <span class="stat-icon spin-slow">💎</span>
+                                <div class="stat-detail">
+                                    <span class="stat-label">ტიტული</span>
+                                    <span class="stat-val" id="quizLevelVal">მოაზროვნე (Lvl 1)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subject Filters (Now with Geography and Sport!) -->
+                        <div class="quiz-subject-filters" id="quizSubjectFilters">
+                            <button class="subj-filter-btn active hover-lift" data-subj="mixed">
+                                <span>🌐</span> <span data-i18n="subj_mixed">სუპერ-რაუნდი</span>
+                            </button>
+                            <button class="subj-filter-btn hover-lift" data-subj="geography">
+                                <span>🌍</span> <span data-i18n="subj_geo">გეოგრაფია</span>
+                            </button>
+                            <button class="subj-filter-btn hover-lift" data-subj="sport">
+                                <span>⚽</span> <span data-i18n="subj_sport">სპორტი</span>
+                            </button>
+                            <button class="subj-filter-btn hover-lift" data-subj="history">
+                                <span>🏛️</span> <span data-i18n="subj_hist">ისტორია</span>
+                            </button>
+                            <button class="subj-filter-btn hover-lift" data-subj="biology">
+                                <span>🧬</span> <span data-i18n="subj_bio">ბიოლოგია</span>
+                            </button>
+                            <button class="subj-filter-btn hover-lift" data-subj="math">
+                                <span>📐</span> <span data-i18n="subj_math">მათემატიკა</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Question Card Arena -->
+                    <div class="quiz-active-card glass-panel-glow tilt-card" id="quizCard">
+                        <div class="quiz-card-top">
+                            <div class="quiz-agent-tag" id="quizAgentTag">
+                                <span class="quiz-agent-avatar float-anim" id="quizAgentAvatar">🦉</span>
+                                <span class="quiz-agent-name" id="quizAgentName">რა? სად? როდის?</span>
+                            </div>
+                            <div class="quiz-category-tag shimmer-tag" id="quizCategoryTag">Category: INTELLECT</div>
+                        </div>
+
+                        <div class="quiz-question-box">
+                            <h3 class="quiz-question-text" id="quizQuestionText">იტვირთება შეკითხვა...</h3>
+                        </div>
+
+                        <!-- 4 Interactive Choices -->
+                        <div class="quiz-options-grid" id="quizOptionsGrid">
+                            <!-- Injected dynamically -->
+                        </div>
+
+                        <!-- Feedback Explanation Card -->
+                        <div class="quiz-explanation-box hidden" id="quizExplanationBox">
+                            <div class="explanation-status" id="explanationStatus"></div>
+                            <p class="explanation-text" id="explanationText"></p>
+                            <button class="btn-primary ripple-btn" id="btnNextQuiz">
+                                <span data-i18n="btn_next_question">შემდეგი შეკითხვა</span>
+                                <span class="arrow-bounce">➡️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: SQUAD DOSSIER: გუნდის შემადგენლობა -->
+            <section class="tab-view" id="viewDossier">
+                <div class="dossier-container">
+                    <div class="dossier-hero glass-panel-glow">
+                        <img src="/static/images/hero_banner.jpg" alt="რა? სად? როდის?" class="dossier-hero-img">
+                        <div class="dossier-hero-overlay">
+                            <h2>რა? სად? როდის? — მოაზროვნეთა გუნდი</h2>
+                            <p>გაიცანით თქვენი ინტელექტუალური გუნდის 6 წევრი — კაპიტანი და ექსპერტები მათემატიკაში, გეოგრაფიაში, ბიოლოგიაში, ისტორიასა და სპორტში.</p>
+                        </div>
+                    </div>
+
+                    <div class="dossier-grid" id="dossierGrid">
+                        <!-- Agent 1: Captain -->
+                        <div class="dossier-card leader-card tilt-card">
+                            <div class="dossier-card-header">
+                                <div class="dossier-avatar float-anim">🦉</div>
+                                <div class="dossier-title-col">
+                                    <h3>ალექსი (Alex)</h3>
+                                    <span class="dossier-role">გუნდის კაპიტანი | Team Captain</span>
+                                    <span class="dossier-badge gold">კაპიტანი</span>
+                                </div>
+                            </div>
+                            <div class="dossier-body">
+                                <p class="dossier-desc">წარმართავს 1 წუთიან დისკუსიას, აჯამებს გუნდის ვერსიებს, იყენებს დედუქციას და იღებს პასუხისმგებლობას საბოლოო პასუხზე.</p>
+                                <div class="dossier-skills">
+                                    <span class="skill-tag">გუნდის მართვა</span>
+                                    <span class="skill-tag">1 წუთი ფიქრისთვის</span>
+                                    <span class="skill-tag">დედუქცია</span>
+                                    <span class="skill-tag">სინთეზი</span>
+                                </div>
+                                <button class="btn-chat-with hover-lift ripple-btn" data-agent="leader">
+                                    <span>ალექსისთან ჩატი</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Agent 2: Math -->
+                        <div class="dossier-card math-card tilt-card">
+                            <div class="dossier-card-header">
+                                <div class="dossier-avatar float-anim">📐</div>
+                                <div class="dossier-title-col">
+                                    <h3>თეა (Tea)</h3>
+                                    <span class="dossier-role">მათემატიკა & ლოგიკა | Logic Master</span>
+                                    <span class="dossier-badge cyan">მათემატიკა</span>
+                                </div>
+                            </div>
+                            <div class="dossier-body">
+                                <p class="dossier-desc">ლოგიკური მსჯელობა, რიცხვითი კანონზომიერებები, კომბინატორიკა, პარადოქსები და მათემატიკური სიზუსტე.</p>
+                                <div class="dossier-skills">
+                                    <span class="skill-tag">ლოგიკური თავსატეხები</span>
+                                    <span class="skill-tag">ალბათობა</span>
+                                    <span class="skill-tag">გეომეტრია</span>
+                                    <span class="skill-tag">ანალიზი</span>
+                                </div>
+                                <button class="btn-chat-with hover-lift ripple-btn" data-agent="math">
+                                    <span>თეასთან ჩატი</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Agent 3: Geography (NEW!) -->
+                        <div class="dossier-card geo-card tilt-card">
+                            <div class="dossier-card-header">
+                                <div class="dossier-avatar float-anim">🌍</div>
+                                <div class="dossier-title-col">
+                                    <h3>სანდრო (Sandro)</h3>
+                                    <span class="dossier-role">გეოგრაფია & მოგზაურობა | Cartographer</span>
+                                    <span class="dossier-badge blue">გეოგრაფია</span>
+                                </div>
+                            </div>
+                            <div class="dossier-body">
+                                <p class="dossier-desc">მსოფლიოს რუკა, დედაქალაქები, საზღვრები, უიშვიათესი კუნძულები, ტბები, მთათა მწვერვალები და ტოპონიმიკა.</p>
+                                <div class="dossier-skills">
+                                    <span class="skill-tag">კარტოგრაფია</span>
+                                    <span class="skill-tag">საქართველოს გეოგრაფია</span>
+                                    <span class="skill-tag">დედაქალაქები</span>
+                                    <span class="skill-tag">ანომალიები</span>
+                                </div>
+                                <button class="btn-chat-with hover-lift ripple-btn" data-agent="geography">
+                                    <span>სანდროსთან ჩატი</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Agent 4: Biology -->
+                        <div class="dossier-card bio-card tilt-card">
+                            <div class="dossier-card-header">
+                                <div class="dossier-avatar float-anim">🧬</div>
+                                <div class="dossier-title-col">
+                                    <h3>ლუკა (Luka)</h3>
+                                    <span class="dossier-role">ბიოლოგია & ბუნება | Nature Explorer</span>
+                                    <span class="dossier-badge green">ბიოლოგია</span>
+                                </div>
+                            </div>
+                            <div class="dossier-body">
+                                <p class="dossier-desc">ფლორა და ფაუნა, ცოცხალი სამყაროს უნიკალური თვისებები, ანატომია, გენეტიკა და ეკოლოგიური საიდუმლოებები.</p>
+                                <div class="dossier-skills">
+                                    <span class="skill-tag">ცხოველთა სამყარო</span>
+                                    <span class="skill-tag">მცენარეები</span>
+                                    <span class="skill-tag">მიმიკრია</span>
+                                    <span class="skill-tag">ევოლუცია</span>
+                                </div>
+                                <button class="btn-chat-with hover-lift ripple-btn" data-agent="biology">
+                                    <span>ლუკასთან ჩატი</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Agent 5: History -->
+                        <div class="dossier-card hist-card tilt-card">
+                            <div class="dossier-card-header">
+                                <div class="dossier-avatar float-anim">🏛️</div>
+                                <div class="dossier-title-col">
+                                    <h3>ნინო (Nino)</h3>
+                                    <span class="dossier-role">ისტორია & ცივილიზაციები | Historian</span>
+                                    <span class="dossier-badge rose">ისტორია</span>
+                                </div>
+                            </div>
+                            <div class="dossier-body">
+                                <p class="dossier-desc">ანტიკური ცივილიზაციები, საქართველოს ისტორიული ეპოქები, არტეფაქტები, ბრძოლები და კულტურული მემკვიდრეობა.</p>
+                                <div class="dossier-skills">
+                                    <span class="skill-tag">საქართველოს ისტორია</span>
+                                    <span class="skill-tag">მსოფლიო ისტორია</span>
+                                    <span class="skill-tag">არქეოლოგია</span>
+                                    <span class="skill-tag">თარიღები & ეპოქები</span>
+                                </div>
+                                <button class="btn-chat-with hover-lift ripple-btn" data-agent="history">
+                                    <span>ნინოსთან ჩატი</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Agent 6: Sport (NEW!) -->
+                        <div class="dossier-card sport-card tilt-card">
+                            <div class="dossier-card-header">
+                                <div class="dossier-avatar float-anim">⚽</div>
+                                <div class="dossier-title-col">
+                                    <h3>დავითი (David)</h3>
+                                    <span class="dossier-role">სპორტი & ოლიმპიადა | Sports Chronicler</span>
+                                    <span class="dossier-badge orange">სპორტი</span>
+                                </div>
+                            </div>
+                            <div class="dossier-body">
+                                <p class="dossier-desc">ოლიმპიური თამაშები, მსოფლიო ჩემპიონატები, ქართული სპორტული ტრიუმფები (ფეხბურთი, ძიუდო, რაგბი, ჭიდაობა) და რეკორდები.</p>
+                                <div class="dossier-skills">
+                                    <span class="skill-tag">ფეხბურთი</span>
+                                    <span class="skill-tag">ოლიმპიური ისტორია</span>
+                                    <span class="skill-tag">ქართული სპორტი</span>
+                                    <span class="skill-tag">რეკორდები</span>
+                                </div>
+                                <button class="btn-chat-with hover-lift ripple-btn" data-agent="sport">
+                                    <span>დავითთან ჩატი</span> ➡️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast Element -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
